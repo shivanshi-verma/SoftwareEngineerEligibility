@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Development Job Application</title>
+<style>
+.error { color: red; }
+</style>
+</head>
+<body>
+
+<h2>Software Development Job Application</h2>
+
+<form id="jobApplicationForm">
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName" required><br><br>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" required><br><br>
+
+    <label for="email">Email Address:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="qualification">Educational Qualification:</label>
+    <input type="text" id="qualification" name="qualification" required><br><br>
+
+    <label for="experience">Years of Work Experience:</label>
+    <input type="number" id="experience" name="experience" required><br><br>
+
+    <button type="submit">Submit Application</button>
+</form>
+
+<div id="validationErrors" class="error"></div>
+
+<script>
+document.getElementById("jobApplicationForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    var fullName = document.getElementById("fullName").value;
+    var dob = new Date(document.getElementById("dob").value);
+    var email = document.getElementById("email").value;
+    var qualification = document.getElementById("qualification").value;
+    var experience = parseInt(document.getElementById("experience").value);
+    
+    var currentDate = new Date();
+    var age = currentDate.getFullYear() - dob.getFullYear();
+    
+    if (currentDate.getMonth() < dob.getMonth() || (currentDate.getMonth() == dob.getMonth() && currentDate.getDate() < dob.getDate())) {
+        age--;
+    }
+    
+    var errors = "";
+    
+    if (age < 21) {
+        errors += "You must be 21 years or older to apply.<br>";
+    }
+    
+    
+    if (!qualification.toLowerCase().includes("b.tech.")) {
+        errors += "You must have a B.Tech. degree to apply.<br>";
+    }
+    
+    if (experience < 2) {
+        errors += "You must have at least 2 years of relevant work experience.<br>";
+    }
+    
+    if (errors === "") {
+        alert("Congratulations, " + fullName + "! Your application has been submitted successfully.");
+        document.getElementById("jobApplicationForm").reset();
+    } else {
+        document.getElementById("validationErrors").innerHTML = errors;
+    }
+});
+</script>
+
+</body>
+</html>
